@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import { SessionProvider } from "next-auth/react";
-import { auth } from "@/auth";
+import "../globals.css";
+import Navbar from "./_components/navbar";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,12 +16,14 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
-
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <SessionProvider session={session}>{children}</SessionProvider>
+      <body className={`${inter.className}`}>
+        <Toaster />
+        <div className="w-full h-full flex flex-col justify-center items-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-800">
+          <Navbar />
+          {children}
+        </div>
       </body>
     </html>
   );
