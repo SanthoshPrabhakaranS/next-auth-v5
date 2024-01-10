@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { settings } from "@/actions/settings";
 import { Button } from "@/components/ui/button";
@@ -28,7 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export const settingsFormSchema = z.object({
+const settingsSchema = z.object({
   name: z.string(),
   role: z.enum([Role.ADMIN, Role.USER]),
   email: z.optional(z.string().email()),
@@ -42,8 +42,8 @@ const SettingsPage = () => {
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");
 
-  const form = useForm<z.infer<typeof settingsFormSchema>>({
-    resolver: zodResolver(settingsFormSchema),
+  const form = useForm<z.infer<typeof settingsSchema>>({
+    resolver: zodResolver(settingsSchema),
     defaultValues: {
       name: data?.user?.name || undefined,
       email: data?.user?.email || undefined,
@@ -52,7 +52,7 @@ const SettingsPage = () => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof settingsFormSchema>) => {
+  const onSubmit = async (values: z.infer<typeof settingsSchema>) => {
     settings(values)
       .then((res) => {
         if (res.error) {

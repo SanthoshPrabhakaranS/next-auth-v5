@@ -29,7 +29,7 @@ const NewVerificationForm = () => {
 
   useEffect(() => {
     onSubmit();
-  }, []);
+  }, [onSubmit]);
 
   return (
     <div className="w-[550px]">
